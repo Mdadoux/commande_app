@@ -54,11 +54,3 @@ var foodItems =
 
 
 
-if (localStorage.getItem('userMenu') === null) {
-	var userMenu = [];
-	localStorage.setItem('userMenu', JSON.stringify(userMenu));
-
-} else {
-	var userMenu = JSON.parse(localStorage.getItem('userMenu'));
-
-}
