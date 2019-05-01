@@ -8,44 +8,53 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="assets/js/foodItems.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Titan+One|Baloo|Anton|Lily+Script+One|Montserrat" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+    crossorigin="anonymous">
   <script src="assets/js/app.js"></script>
 
-  <style type="text/css">
-    #user_menu {
-      display: none;
-    }
-
-    #liste-ingred {
-      cursor: pointer;
-      padding: 10px;
-    }
-  </style>
 
 </head>
 
 <body>
-  <h1>wellcom gobers !</h1>
-  <nav>
-    <div id="cart-sumup">
-      <span>Commende :</span> <span id="number-item-incart">0</span>
-    </div>
-  </nav>
+  <div class="sidebare">
+    <ul id="liste-cart" class="row">
 
-  <ul id="liste-ingred">
-  </ul>
-  <hr>
-  <ul id="liste-cart">
-
-  </ul>
+    </ul>
 
 
-  <div id="cart-infos">
-    <button class="cancel-commande">Annuler ma commande </button>
-    <button class="confirm-commande"> Confirmer commande</button>
-
-    <div id="total">Totale <span id="total_price">0</span><span> €</span></div>
   </div>
 
+  <section class="sections" id="main-section">
+    <button id="open-close" class="btn btn-info">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <ul id="liste-products" class="row">
+    </ul>
+
+    <div id="cart-infos">
+      <span>Totale</span>
+      <div id="total">
+        <span id="total_price">0</span><span> €</span>
+      </div>
+      <div class="commande-action-wrapp">
+        <button class="cancel-commande btn-danger btn">Annuler ma commande </button>
+        <button class="confirm-commande btn btn-success"> Confirmer commande</button>
+      </div>
+    </div>
+    <button id="show-more-item" class="btn btn-light">More</button>
+  </section>
+  <section class="sections" id="cart-container">
+
+  </section>
+
+
+
+
+
+
+  <script src="assets/js/ui.js"></script>
+  <!-- <script src="../public_html/plugins/bootstrap/js/bootstrap.min.js"></script> -->
 </body>
 
 </html>

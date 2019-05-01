@@ -1,21 +1,23 @@
 var userOrder = {};
+var categories = ["Tout"];
 if (localStorage.getItem('userCart') === null) {
 	var userCart = [];
 	localStorage.setItem('userCart', JSON.stringify(userCart));
 } else {
 	var userCart = JSON.parse(localStorage.getItem('userCart'));
-	show_alert();
+	//show_alert();
 }
 
 $(document).ready(function () {
-	console.log(userCart.length);
 
+	get_item_category();
+	menu_category_renderer();
 	//$btnAnnulCommand.hide();
 	check_is_commade();
 	// Afficher les différents igredien 
 	liste_food_items();
 	//show_liste-cart();
-	$("#liste-ingred li").on('click', function (evt) {
+	$("#liste-products li").on('click', function (evt) {
 		//	console.log(evt.target);
 		var choosedItem = $(this);
 		var itemTitle = choosedItem.find('.item-title').text();
@@ -27,7 +29,6 @@ $(document).ready(function () {
 		get_number_cart_product();
 
 	});
-
 
 	//récuperer l'éllément à supprimer 
 	$(document).on('click', '#liste-cart li .delete-item', function () {
@@ -83,9 +84,11 @@ $(document).ready(function () {
 
 });
 
-
+// aviser si une commande existe 
 function show_alert() {
-	confirm("nous avons trouvé une commande en ttente")
+	if (!confirm("nous avons trouvé une commande continer sur cette commande ?")) {
+		cancel_commande();
+	}
 }
 function add_item_to_cart(itemTitle, itemPrice, itemImage) {
 	var $listeMenu = $('#liste-cart');
@@ -99,12 +102,14 @@ function add_item_to_cart(itemTitle, itemPrice, itemImage) {
 		}
 
 	}
-	$listeMenu.append(`<li class="cartItem">
+	$listeMenu.append(`<li class="cartItem col-md-4 col-sm-12">
+	<div class="item-body">
 	<figure><img src="${itemImage}" class="img-responsive"></figure>
 	<div class="item-content">${itemTitle}</div>
-	<button class="less-btn">-</button><span class="item-quantity">${quantityDefault}</span><button class="more-btn">+</button>
+	<button class="less-btn btn btn-light">-</button><span class="item-quantity">${quantityDefault}</span><button class="more-btn  btn btn-light">+</button>
 	<div class="item-price"><span class="price">${itemPrice}</span><span> €</span></div>
-	<button class="delete-item">x</button>
+	<button class="delete-item btn btn-danger">x</button>
+	</div>
 	</li>`);
 
 }
@@ -120,19 +125,25 @@ function check_is_commade() {
 }
 
 
-//listeer les composants menu 
+//lister les composants menu 
 function liste_food_items() {
 	for (var i = 0; i < foodItems.length; i++) {
 		var item = foodItems[i];
-		var $listeIngred = $('#liste-ingred');
+		var $listeIngred = $('#liste-products');
 		$listeIngred.append(`
-		<li class="${item.nom}">
-			<div class="item-img-wrapp">
-				<img src="${item.image}" class="img-responsive">
-			</div>
-			<p class="item-title">${item.nom}</p>
-			<div class="item-price"><span>${item.price}</span>€</div>
-			<button>Choisir</button>		
+		<li id="${item.nom.toLowerCase()}" class="col-md-4 col-xl-2 col-sm-6 col-xs-12 products-item ${item.type}">
+			<div class="item-body">
+				<div class="item-body-inner">				
+				<div class="item-img-wrapp">
+						<img src="${item.image}" class="img-responsive">
+				</div>
+				<p class="item-title">${item.nom}</p>
+				<div class="item-price"><span>${item.price}</span><span>€</span></div>
+				<footer>
+					<button class="btn btn-info">Choisir</button>
+				</footer>	
+				</div>
+			</div>	
 		</li>
 		`);
 	}
@@ -142,6 +153,18 @@ function liste_food_items() {
 function get_number_cart_product() {
 	var totalItem = $('#liste-cart li').length;
 	$('#number-item-incart').text(totalItem);
+}
+
+function menu_category_renderer() {
+	var $menucontainer = $('#food-cat');
+	for (let i = 0; i < categories.length; i++) {
+		const categorie = categories[i];
+		$menucontainer.append(`
+		<button class="filter-item">
+			<span>${categorie}</span>
+		</button>`)
+
+	}
 }
 
 function confirm_order() {
@@ -162,8 +185,16 @@ function confirm_order() {
 	userOrder.commanditaire.email = userEmail;
 	userCart.push(userOrder);
 	localStorage.setItem('userCart', JSON.stringify(userCart));
+}
 
-
+function get_item_category() {
+	for (let i = 0; i < foodItems.length; i++) {
+		const element = foodItems[i];
+		//recuperer une seule fois la catégorie
+		if (categories.indexOf(element.type) < 0) {
+			categories.push(element.type);
+		}
+	}
 
 
 }
@@ -221,3 +252,31 @@ function update_total_price() {
 	$totale_price.text(total_price_value.toFixed(2));
 }
 
+
+function show_products_by_category(category) {
+	var productsToShow = [];
+	var $listeIngred = $('#liste-products');
+	for (let i = 0; i < foodItems.length; i++) {
+		const element = foodItems[i];
+		if (element.type === category) {
+			productsToShow.push(element);
+		}
+	}
+
+	// parcourir le nouveau tableau et y afficher les éléments 
+	for (var i = 0; i < productsToShow.length; i++) {
+		var item = productsToShow[i];
+		$listeIngred.empty();
+		$listeIngred.append(`
+		<li id="${item.nom}" class="products-item ${item.type}">
+			<div class="item-img-wrapp">
+				<img src="${item.image}" class="img-responsive">
+			</div>
+			<p class="item-title">${item.nom}</p>
+			<div class="item-price"><span>${item.price}</span><span>€</span></div>
+			<button class="btn btn-default">Choisir</button>		
+		</li>
+		`);
+	}
+
+}
