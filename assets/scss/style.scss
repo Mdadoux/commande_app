@@ -1,5 +1,6 @@
 @import "_interface";
 @import "../../plugins/bootstrap/scss/bootstrap.scss";
+
 /*-----variable-------*/
 
 body {
@@ -12,14 +13,16 @@ body.opened #liste-cart {
     margin-right: auto;
 }
 
-
-
-#liste-products {
+#liste-products,
+.liste-products {
     padding: 20px 60px 20px 20px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 .products-item {
-    margin-top: 100px;
+    // margin-top: 100px;
 
     .item-body {
         position: relative;
@@ -107,7 +110,7 @@ body.opened #liste-cart {
         line-height: 30px;
     }
 
-    +footer {
+    + footer {
         margin-top: 20px;
         text-align: center;
 
@@ -146,10 +149,6 @@ li {
     }
 }
 
-#open-close {
-    cursor: pointer;
-}
-
 .hidden-products {
     display: none;
 }
@@ -158,76 +157,26 @@ li {
     display: unline-block !important;
 }
 
-@media screen and (min-width:1200px) {
-    #main-section {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        left: 0;
-        top: 0;
-        background: #981a81;
-        transition: all ease-in .3s;
-        z-index: 3;
-    }
-
-    .sidebare {
-        overflow: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        right: 0; // transform: translateX(130%);
-        background: rebeccapurple;
-        z-index: 1;
-        transition: all ease .3s;
-    }
-
-    #cart-infos {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background: white;
-        padding: 30px 20px;
-        transition: all cubic-bezier(0.63, 1.01, 0.54, 0.93) .4s;
-        /* transform: translateY(100%); */
-    }
-
-    .opened {
-        .sidebare {
-            right: 0; // transform: translateX(0);
-        }
-
-        #main-section {
-            transform: translateX(-96.999999%);
-        }
-
-        #cart-infos {
-            text-align: right;
-        }
-    }
-
-    #open-close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 30px;
-        height: 30px;
-        box-shadow: 0 0 0 7px $color-yellow_3;
-        background: $color-green_2;
-        padding: 0;
-    }
-}
-
 #cart-infos {
     font-family: $font-baloon;
     box-shadow: 10px 10px 37px 30px rgba(0, 0, 0, 0.38);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    background: white;
+    padding: 30px 20px;
+    transition: all cubic-bezier(0.63, 1.01, 0.54, 0.93) 0.4s;
+    z-index: 10;
 
-    >span {
+    > span {
         text-transform: uppercase;
         font-size: 1.5em;
     }
 
     .btn {
         @include border-radius(30px);
+
         font-family: $font-baloon;
         -webkit-font-smoothing: antialiased;
         font-weight: 600;
@@ -236,6 +185,7 @@ li {
         box-shadow: 0 5px 0 0 darken($color-yellow_1, 15%);
         padding: 8px 30px;
         transition: all ease-in .3s;
+        font-size: 15px;
 
         &:hover {
             transform: translateY(5px);
@@ -260,7 +210,7 @@ li {
         padding: 8px 15px;
 
         #total_price {
-            +span {
+            + span {
                 display: inline-block;
                 margin-left: 10px;
                 height: 30px;
@@ -276,8 +226,50 @@ li {
             }
         }
     }
+}
 
-    .commande-action-wrapp {
-        margin-top: 30px;
+#open-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 0 7px $color-yellow_3;
+    background: $color-green_2;
+    padding: 0;
+    z-index: 10;
+}
+
+.commande-action-wrapp {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#main-section {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background: #981a81;
+    transition: all ease-in .3s;
+    z-index: 3;
+}
+
+.sidebare {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 0; // transform: translateX(130%);
+    background: rebeccapurple;
+    z-index: 1;
+    transition: all ease .3s;
+}
+
+.opened {
+    #main-section {
+        transform: translateX(-100%);
     }
 }

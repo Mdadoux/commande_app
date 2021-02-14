@@ -23,7 +23,9 @@ $(document).ready(function () {
 		var itemTitle = choosedItem.find('.item-title').text();
 		var itemPrice = choosedItem.find('.item-price span').text();
 		var itemImage = choosedItem.find('.item-img-wrapp img').attr('src');
-		add_item_to_cart(itemTitle, itemPrice, itemImage);
+		var itemId = choosedItem.find('.item-body').attr('id');
+		//	console.log(itemId);
+		add_item_to_cart(itemId, itemTitle, itemPrice, itemImage);
 		check_is_commande();
 		update_total_price();
 		get_number_cart_product();
@@ -101,31 +103,31 @@ function reset_totale_price() {
 
 // aviser si une commande existe
 function show_alert() {
-	if (!confirm("Nous avons trouvé une commande continer sur cette commande ?")) {
+	if (!confirm("Nous avons trouvé une commande continuer sur cette commande ?")) {
 		cancel_commande();
 	}
 }
 
-function add_item_to_cart(itemTitle, itemPrice, itemImage) {
+function add_item_to_cart($id, $title, $price, $image) {
 	var $listeMenu = $('#liste-cart');
 	var quantityDefault = 1;
 	var $cartItems = $($listeMenu).find('li');
 	for (let i = 0; i < $cartItems.length; i++) {
 		const element = $cartItems[i];
-		if ($(element).find('.item-content').text() === itemTitle) {
-			alert("Cet élément est déjà dans votre commande !")
+		if ($(element).attr('id') === $id) {
+			alert("Cet élément est déjà dans votre commande !");
 			return;
 		}
 
 	}
-	$listeMenu.append(`<li class="products-item col-md-4 col-xl-2 col-sm-6 col-xs-12">
+	$listeMenu.append(`<li id="${$id}" class="products-item">
 	<div class="item-body">
 		<div class="item-body-inner">
 			<div class="item-img-wrapp">
-				<img src="${itemImage}" class="img-responsive">
+				<img src="${$image}" class="img-responsive">
 			</div>
-			<p class="item-title">${itemTitle}</p>
-			<div class="item-price"><span>${itemPrice}</span><span>€</span></div>
+			<p class="item-title">${$title}</p>
+			<div class="item-price"><span>${$price}</span><span>€</span></div>
 			<footer>
 				<button class="less-btn btn btn-light">-</button><span class="item-quantity">${quantityDefault}</span><button class="more-btn  btn btn-light">+</button>
 				<button class="delete-item btn btn-danger" title="supprimer">x</button>
@@ -153,8 +155,8 @@ function liste_food_items() {
 		var item = foodItems[i];
 		var $listeIngred = $('#liste-products');
 		$listeIngred.append(`
-		<li id="${item.nom.toLowerCase()}" class="col-md-4 col-xl-2 col-sm-6 col-xs-12 products-item ${item.type}">
-			<div class="item-body">
+		<li id="${item.nom.toLowerCase()}" class="products-item ${item.type}">
+			<div class="item-body" id="${item.id}">
 				<div class="item-body-inner">
 				<div class="item-img-wrapp">
 						<img src="${item.image}" class="img-responsive">
