@@ -7491,6 +7491,9 @@ body.opened #liste-cart {
   margin: 10px auto; }
 .products-item:hover img {
   transform: translateY(-51px); }
+  @media (max-width: 640px) {
+    .products-item:hover img {
+      transform: translateY(-120px); } }
 .products-item .item-quantity {
   font-family: "Chewy", cursive;
   padding: 0 5px;
@@ -7558,6 +7561,9 @@ li {
     max-width: 100%;
     transform: translateY(-30px);
     transition: all ease-out .2s; }
+    @media (max-width: 640px) {
+      li img {
+        transform: translateY(-50px); } }
 
 .hidden-products {
   display: none; }
